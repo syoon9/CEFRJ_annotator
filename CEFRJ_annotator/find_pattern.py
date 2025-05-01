@@ -22,8 +22,7 @@ import pandas as pd
 import regex
 import copy
 import process_text
-
-regex_file = "/Users/su-youn.yoon/Scripts/CEFR_grammar_detection/CEFRJ_annotator/CEFRJ_grammar_profile_full_20200220.csv"
+import json
 
 
 class PatternItem:
@@ -51,13 +50,20 @@ class PatternItem:
         pattern_id, grammatical_item, start_word_index,
         end_word_index, and actual_string.
         """
-        return (f"PatternItem("
-                f"pattern_id={self.pattern_id}, "
+        output = (f"pattern_id={self.pattern_id}, "
                 f"explanation={self.explanation}, "
                 f"start_word_index={self.start_word_index}, "
                 f"end_word_index={self.end_word_index}, "
-                f"actual_string={self.actual_string}"
-                f")")
+                f"actual_string={self.actual_string}")
+        return output
+    def _get(self):
+        output = {"pattern_id": self.pattern_id,
+                  "explanation": self.explanation,
+                  "start_word_index": self.start_word_index,
+                  "end_word_index": self.end_word_index,
+                  "actual_string": self.actual_string}
+        return output
+
 def load_regex_patterns(regex_file):
     # Read all regex patterns from the provided file.
     regexes = []
@@ -84,7 +90,8 @@ def remove_tags_and_map_intervals(text):
     # original text that maps to the visible text of cleaned_words[i].
   
     # Split into lines.
-    lines = text.split('\n')
+    tag_separator = process_text.tag_separator
+    lines = text.split(tag_separator)
    
     cleaned_line = []
     word_intervals = []
@@ -139,7 +146,7 @@ def get_pattern_and_span(input_text, tagged_text, regexes):
     Given an input_text and a list of regex patterns,
     return a dictionary:
     {
-        pattern_id: [(start_index, end_index), (start_index, end_index), ...],
+        pattern_id: [ patternItem1, patternItem2, ...],
         ...
     }
     using the regex library (PCRE-compatible) with IGNORECASE.
@@ -160,21 +167,23 @@ def get_pattern_and_span(input_text, tagged_text, regexes):
             end_char_index = match.end()
             current_pattern.start_word_index, current_pattern.end_word_index = find_word_indices(start_char_index, end_char_index, word_intervals)
             current_pattern.actual_string = get_words_between_indices(word_list, current_pattern.start_word_index, current_pattern.end_word_index)
-            print('actual string', current_pattern.actual_string)
-            matches.append(current_pattern)
+            matches.append(current_pattern._get())
         if len(matches) > 0:
-            print('matches', matches)
             pattern_spans[pattern.pattern_id] = matches
     return pattern_spans
 
 
 def test():
-    input_text = "I was reading a book."
-    tagged_text = "<file>\nI_PP_I\nwas_VBD_be\nreading_VBG_read\na_DT_a book_NN_book\n._SENT_.\n</file>"
+    regex_file = "/Users/su-youn.yoon/Scripts/CEFR_grammar_detection/CEFRJ_annotator/CEFRJ_grammar_profile_full_20200220.csv"
+    #input_text = "I was reading a book."
+    input_text = "why do n't you want to join our club ?"
+    #tagged_text = "<file>\nI_PP_I\nwas_VBD_be\nreading_VBG_read\na_DT_a book_NN_book\n._SENT_.\n</file>"
     #tagged_text = "<file>\n<NC>\nI_PP_I\n</NC>\n<VC>\nwas_VBD_be\nreading_VBG_read\n</VC>\n<NC>\na_DT_a book_NN_book\n</NC>\n._SENT_.\n</file>"
     regexes = load_regex_patterns(regex_file)
-    tagged_text = process_text.process_one(input_text)
+    #tagged_text = process_text.process_one(input_text)
+    tagged_text = "why_WRB_why do_VVP_do n't_RB_n't you_PP_you want_VBP_want to_TO_to join_VB_join our_PP$_our club_NN_club ?_SENT_?"
     pattern_spans = get_pattern_and_span(input_text, tagged_text, regexes)
+    print(pattern_spans)
 
 
-test()
+#test()

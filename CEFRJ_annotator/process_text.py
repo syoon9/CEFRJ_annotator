@@ -1,6 +1,7 @@
 import re
 import subprocess
-#import treetaggerwrapper
+
+tag_separator = ' '
 
 def preprocess_line(line: str) -> str:
     """
@@ -20,6 +21,8 @@ def preprocess_line(line: str) -> str:
     line = re.sub(r'[　\t]', ' ', line)
     # Replace ～ or ~ with "..."
     line = re.sub(r'[～~]', '...', line)
+    # YSY: add lower case
+    #line = line.lower()
     return line
 
 
@@ -63,6 +66,7 @@ def xmlize_single_line(line: str) -> str:
     line = line.replace("<", "&lt;")
 
     # Replace tabs with underscores
+    line = re.sub(r'\t+', '\t', line)
     line = line.replace("\t", "_")
     return line
 
@@ -101,7 +105,6 @@ def run_treetagger_on_sentence(sentence: str) -> list:
             encoding="utf-8",
             check=True
         )
-
         # Parse the output lines:
         # Typical line format from TreeTagger: "word\tPOS\tlemma"
         output = []
@@ -117,19 +120,17 @@ def run_treetagger_on_sentence(sentence: str) -> list:
         output = None
     return output
 
-def process_one(sentence: str) -> str:
+def run_text_procesesor(sentence: str) -> str:
     processed_sentence = preprocess_line(sentence)
     tagged_sentence = run_treetagger_on_sentence(processed_sentence)
-    processed_sentence = xmlize_single_line('\n'.join(tagged_sentence))
+    processed_sentence = xmlize_single_line(tag_separator.join(tagged_sentence))
     return processed_sentence
 
 
 def test():
-    input_text = "I was reading a book."
-    print(process_one(input_text))
-
-   # xmlized_text = xmlize_single_line(tagged_text)
-
-
-
-test()
+    input_text = "I believe that I am not guilty ."
+    tagged_text = run_text_procesesor(input_text)
+    xmlized_text = xmlize_single_line(tagged_text)
+    print('tagged_text', tagged_text)
+    print('xmlized_text', xmlized_text)
+#test()
