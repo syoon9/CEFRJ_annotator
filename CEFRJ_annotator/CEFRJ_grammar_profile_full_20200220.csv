@@ -382,7 +382,7 @@
 175,\S+_NNS?_\S+ \Kwho_WP_who ((\S+_(DT|PDT|CD|PP$|RB.?|JJ.?)_\S+ )*\S+_N..?_\S+|\S+_PP_\S+),ACCUSATIVE RELATIVE PRONOUN: who,,関係代名詞(目的格)(who),,PRELO.who,,名詞に後続し(助)動詞・副詞が後続するものに限定,NNS? \Kwho 名詞句・代名詞
 176,\S+_NNS?_\S+ \Kwhom_WP_whom ((\S+_(DT|PDT|CD|PP$|RB.?|JJ.?)_\S+ )*\S+_N..?_\S+|\S+_PP_\S+),ACCUSATIVE RELATIVE PRONOUN: whom,,関係代名詞(目的格)(whom),,PRELO.whom,,名詞に後続し(助)動詞・副詞が後続するものに限定,NNS? \Kwhom 名詞句・代名詞
 177,\S+_NNS?_\S+ \Kwhich_WDT_which ((\S+_(DT|PDT|CD|PP$|RB.?|JJ.?)_\S+ )*\S+_N..?_\S+|\S+_PP_\S+),ACCUSATIVE RELATIVE PRONOUN: which,,関係代名詞(目的格)(which),,PRELO.which,,名詞に後続し(助)動詞・副詞が後続するものに限定,NNS? \Kwhich 名詞句・代名詞
-178,\S+_NNS?_\S+ \Kthat_WDT_that ((\S+_(DT|PDT|CD|PP$|RB.?|JJ.?)_\S+ )*\S+_N..?_\S+|\S+_PP_\S+),ACCUSATIVE RELATIVE PRONOUN: that,,関係代名詞(目的格)(that),,PRELO.that,,名詞に後続し(助)動詞・副詞が後続するものに限定,NNS? \Kthat_WDT 名詞句・代名詞
+178,\S+_NNS?_\S+ \Kthat_(WDT|IN/that)_that ((\S+_(DT|PDT|CD|PP$|RB.?|JJ.?)_\S+ )*\S+_N..?_\S+|\S+_PP_\S+),ACCUSATIVE RELATIVE PRONOUN: that,,関係代名詞(目的格)(that),,PRELO.that,,名詞に後続し(助)動詞・副詞が後続するものに限定,NNS? \Kthat_WDT 名詞句・代名詞
 179,\S+_NNS?_\S+ ((\S+_(DT|PDT|CD|PP$|RB.?|JJ.?)_\S+ )*\S+_N..?_\S+|\S+_PP_\S+) \S+_(MD|V.[DPZ]|RB.?)_\S+,ELLIPTICAL ACCUSATIVE RELATIVE PRONOUN,,関係代名詞(目的格)の省略,,PRELO.OMIT,,名詞の後に名詞句・代名詞+(助)動詞・副詞が後続するものに限定,NNS? 名詞句・代名詞 (MD|V.[DPZ]|RB.?)
 180,\S+_NNS?_\S+ whose_WP\$_whose,GENITIVE RELATIVE PRONOUN,,関係代名詞(所有格),,PRELGEN,,名詞に後続するものに限定,NNS? whose
 181,"\S+_NNS?_\S+ ,_,_, (who_WP_who|whom_WP_whom|which_WDT_which|whose_WP\$_whose)",RELATIVE PRONOUN: NONRESTRICTIVE,,関係代名詞(非制限用法),,PREL.NR,,"Excuse me, which ...?などを除外するため名詞に続くものに限定；格は問わない","NNS? , (who|whom|which|whose)"
@@ -472,7 +472,7 @@
 237,"(^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwho_WP_who .+? \?_SENT_\S",WH- QUESTION: Who ...?,AFF. INT./NEG. INT.,疑問詞疑問文(Who ...?),肯定疑問・否定疑問,INT.who,,文頭(相当)または接続詞直後の位置・疑問符で終わる文に限定,(^|区切り位置|接続詞) who (任意の語)+? ?
 238,"(^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwhom_WP_whom .+? \?_SENT_\S",WH- QUESTION: Whom ...?,AFF. INT./NEG. INT.,疑問詞疑問文(Whom ...?),肯定疑問・否定疑問,INT.whom,,文頭(相当)または接続詞直後の位置・疑問符で終わる文に限定,(^|区切り位置|接続詞) whom (任意の語)+? ?
 239,"(^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwhat_WP_what .+? \?_SENT_\S",WH- QUESTION: What ...?,AFF. INT./NEG. INT.,疑問詞疑問文(What ...?),肯定疑問・否定疑問,INT.what,,文頭(相当)または接続詞直後の位置・疑問符で終わる文に限定,(^|区切り位置|接続詞) what_WP (任意の語)+? ?
-240,"(^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwhat_WDT_what \S+_NNS?_\S+ .+? \?_SENT_\S",WH- QUESTION: What N ...?,AFF. INT./NEG. INT.,疑問詞疑問文(What+名詞 ...?),肯定疑問・否定疑問,INT.what_N,,文頭(相当)または接続詞直後の位置・疑問符で終わる文に限定,(^|区切り位置|接続詞) what_WDT NNS? (任意の語)+? ?
+240,"(^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwhat_(WDT|WP)_what \S+_NNS?_\S+ .+? \?_SENT_\S",WH- QUESTION: What N ...?,AFF. INT./NEG. INT.,疑問詞疑問文(What+名詞 ...?),肯定疑問・否定疑問,INT.what_N,,文頭(相当)または接続詞直後の位置・疑問符で終わる文に限定,(^|区切り位置|接続詞) what_WDT NNS? (任意の語)+? ?
 241,"(^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwhich_WDT_which (?!\S+_NNS?).+? \?_SENT_\S",WH- QUESTION: Which ...?,AFF. INT./NEG. INT.,疑問詞疑問文(Which ...?),肯定疑問・否定疑問,INT.which,,文頭(相当)または接続詞直後の位置・疑問符で終わる文に限定,(^|区切り位置|接続詞) which (?!NNS?) (任意の語)+? ?
 242,"(^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwhich_WDT_which \S+_NNS?_\S+ .+? \?_SENT_\S",WH- QUESTION: Which N ...?,AFF. INT./NEG. INT.,疑問詞疑問文(Which+名詞 ...?),肯定疑問・否定疑問,INT.which_N,,文頭(相当)または接続詞直後の位置・疑問符で終わる文に限定,(^|区切り位置|接続詞) which NNS? (任意の語)+? ?
 243,"(^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwhose_WP\$_whose (?!\S+_NNS?).+? \?_SENT_\S",WH- QUESTION: Whose ...?,AFF. INT./NEG. INT.,疑問詞疑問文(Whose ...?),肯定疑問・否定疑問,INT.whose,,文頭(相当)または接続詞直後の位置・疑問符で終わる文に限定,(^|区切り位置|接続詞) whose (?!NNS?) (任意の語)+? ?
