@@ -62,8 +62,9 @@ def xmlize_single_line(line: str) -> str:
 
     # Escape certain special characters for XML
     line = line.replace("&", "&amp;")
-    line = line.replace(">", "&gt;")
-    line = line.replace("<", "&lt;")
+    # The following line was commented because the input texts rarely include the following two symbols, while it mistakely changes "<unknown>" as "&gt"
+    # line = line.replace(">", "&gt;")
+    # line = line.replace("<", "&lt;")
 
     # Replace tabs with underscores
     line = re.sub(r'\t+', '\t', line)
@@ -71,7 +72,7 @@ def xmlize_single_line(line: str) -> str:
     return line
 
 
-def run_treetagger_on_sentence(sentence: str) -> list:
+def run_treetagger_on_sentence(sentence: str, tree_tagger_cmd: str) -> list:
     """
     Runs TreeTagger on a single-sentence string input, capturing and parsing the results.
     Parameters:
@@ -91,11 +92,9 @@ def run_treetagger_on_sentence(sentence: str) -> list:
     3) The appropriate parameter or parameter file for language must be integrated
        into the tree_tagger_cmd if needed (e.g., "tree-tagger-english" vs. "tag-english").
     """
-    # Prepare a temporary file with the single sentence
-    tree_tagger_cmd = '/Users/su-youn.yoon/Scripts/external_resources/CEFRJ_annotation_scripts/TreeTagger/tree-tagger-MacOSX-M1-3.2.3/cmd/tree-tagger-english'
     try:
-        # Run the TreeTagger command via subprocess
-        # Capture the output in "pipe" mode
+    # Run the TreeTagger command via subprocess
+    # Capture the output in "pipe" mode
         result = subprocess.run(
             [tree_tagger_cmd],
             input=sentence,  # Provide LINE as stdin
@@ -120,17 +119,18 @@ def run_treetagger_on_sentence(sentence: str) -> list:
         output = None
     return output
 
-def run_text_procesesor(sentence: str) -> str:
+def run_text_procesesor(sentence: str, tree_tag_cmd: str) -> str:
     processed_sentence = preprocess_line(sentence)
-    tagged_sentence = run_treetagger_on_sentence(processed_sentence)
+    tagged_sentence = run_treetagger_on_sentence(processed_sentence, tree_tag_cmd)
     processed_sentence = xmlize_single_line(tag_separator.join(tagged_sentence))
     return processed_sentence
 
-
 def test():
-    input_text = "I believe that I am not guilty ."
-    tagged_text = run_text_procesesor(input_text)
+    tree_tag_cmd = '/Users/su-youn.yoon/Scripts/external_resources/CEFRJ_annotation_scripts/TreeTagger/tree-tagger-MacOSX-M1-3.2.3/cmd/tree-tagger-english'
+    input_text = "I worked as an assistant chef in a Lagunak Restaurant last summer ."
+    tagged_text = run_text_procesesor(input_text, tree_tag_cmd)
     xmlized_text = xmlize_single_line(tagged_text)
     print('tagged_text', tagged_text)
     print('xmlized_text', xmlized_text)
+
 #test()

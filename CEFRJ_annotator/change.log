@@ -1,0 +1,18 @@
+1. Log of the regular expression updates
+1) remove space before '\K'
+  e.g., (^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+ )\Kwhy_WRB_why do_VVP_do n't_\S+ you_PP_you .+? \?_SENT_\S -> (^|\S+_(``|''|\(|,|:|LS|CC|IN(/that)?)_\S+)\Kwhy_WRB_why do_VVP_do n't_\S+ you_PP_you .+? \?_SENT_\S
+2) updated perl-specific expression '\g'
+  e.g., \g{preposition} -> (?P=preposition)  
+3) part-of-speech correction: PP$ => PP\$
+4) pattern: 55, 56, 57
+- replace "RB" with "RP" (particle)
+5) pattern-specific updates:
+-178: allow both WDT and IN/that for that_(WDT|IN/that)_that
+-240: allow both WP and WDT for what and which due to treetagger error to tag what + N as WP instead of WDT (e.g., "original_sentence": "What shape is the chair ?", "tagged_sentence": "What_WP_what shape_NN_shape is_VBZ_be the_DT_the chair_NN_chair ?_SENT_?")
+ 
+
+2. INPUT error
+ID144
+ID148
+ID184
+

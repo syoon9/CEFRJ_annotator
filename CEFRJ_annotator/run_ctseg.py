@@ -114,7 +114,6 @@ def process_ctseg(indir, outdir):
     regexes = find_pattern.load_regex_patterns(regex_file)
 
     # Find all .md files in the input directory
-    #for m2_path in Path(indir).glob("*.m2"):
     for m2_path in Path(indir).glob("*.m2"):
         print('processing------------------', m2_path
         )

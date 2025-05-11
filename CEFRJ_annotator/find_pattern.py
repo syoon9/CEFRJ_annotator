@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 """
 found_pattern.py
-
 Identify start and end word indices for the CEFRJ Grammatical Items in a Single String
-
-Usage:
-python found_pattern.py [REGEX_FILE] "[INPUT_TEXT]"
-
-Example:
-python found_pattern.py CEFRJ_grammar_profile_full_20200220.csv "I have been studying English since last year."
 
 Description:
 1. Reads regex patterns from a file (e.g., CEFRJ_grammar_profile_full_20200220.csv).
@@ -22,8 +15,6 @@ import pandas as pd
 import regex
 import copy
 import process_text
-import json
-
 
 class PatternItem:
     def __init__(self, pattern_id, regex):
@@ -132,14 +123,14 @@ def find_word_indices(start_char_index, end_char_index, word_intervals):
     # Determine which word (if any) the start_char_index and end_char_index map to
     start_word_index = find_word_index_for_char(start_char_index, word_intervals)
     end_word_index = find_word_index_for_char(end_char_index, word_intervals)
-    return (start_word_index, end_word_index)
+    return (start_word_index, end_word_index+1)
 
 def get_words_between_indices(word_list, start_word_index, end_word_index):
     # Check if indices are out of bounds
     if start_word_index < 0 or end_word_index >= len(word_list) or start_word_index > end_word_index:
         return None
     # Get the words between the indices and join them into a string
-    return ' '.join(word_list[start_word_index:end_word_index + 1])
+    return ' '.join(word_list[start_word_index:end_word_index])
 
 def get_pattern_and_span(input_text, tagged_text, regexes):
     """
@@ -160,7 +151,6 @@ def get_pattern_and_span(input_text, tagged_text, regexes):
     for pattern in regexes:
         matches = []
         # Find all matches with start and end indices
-
         for match in regex.finditer(pattern.regex, tagged_text, flags=regex.IGNORECASE):
             current_pattern = copy.deepcopy(pattern)
             start_char_index = match.start()
@@ -173,17 +163,4 @@ def get_pattern_and_span(input_text, tagged_text, regexes):
     return pattern_spans
 
 
-def test():
-    regex_file = "/Users/su-youn.yoon/Scripts/CEFR_grammar_detection/CEFRJ_annotator/CEFRJ_grammar_profile_full_20200220.csv"
-    #input_text = "I was reading a book."
-    input_text = "why do n't you want to join our club ?"
-    #tagged_text = "<file>\nI_PP_I\nwas_VBD_be\nreading_VBG_read\na_DT_a book_NN_book\n._SENT_.\n</file>"
-    #tagged_text = "<file>\n<NC>\nI_PP_I\n</NC>\n<VC>\nwas_VBD_be\nreading_VBG_read\n</VC>\n<NC>\na_DT_a book_NN_book\n</NC>\n._SENT_.\n</file>"
-    regexes = load_regex_patterns(regex_file)
-    #tagged_text = process_text.process_one(input_text)
-    tagged_text = "why_WRB_why do_VVP_do n't_RB_n't you_PP_you want_VBP_want to_TO_to join_VB_join our_PP$_our club_NN_club ?_SENT_?"
-    pattern_spans = get_pattern_and_span(input_text, tagged_text, regexes)
-    print(pattern_spans)
 
-
-#test()
